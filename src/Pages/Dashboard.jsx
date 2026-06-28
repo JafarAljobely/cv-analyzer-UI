@@ -309,19 +309,68 @@ export default function Dashboard() {
       </div>
 
       {/* 🔥 ROADMAP */}
-      <div className="bg-white/10 p-6 rounded-xl mb-10">
-        <h2 className="mb-6 font-bold"> خارطة التعلم العملي </h2>
-        <div className="space-y-4">
-          {roadmap.map((step, i) => (
-            <div key={i} className="flex items-center gap-4 hover:translate-x-1 transition">
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center font-bold">
-                {i + 1}
+      <div className="bg-white/10 p-6 md:p-8 rounded-xl mb-10">
+        <div className="flex items-center gap-3 mb-10">
+          <div className="w-9 h-9 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-lg shrink-0">
+            🗺️
+          </div>
+          <h2 className="font-bold text-lg text-white"> خارطة التعلم العملي </h2>
+        </div>
+
+        <div className="flex flex-col">
+          {roadmap.map((step, i) => {
+            const isLeft = i % 2 === 0;
+            const colors = [
+              { bg: "from-blue-500 to-cyan-400", border: "border-blue-500/40", glow: "shadow-blue-500/30" },
+              { bg: "from-purple-500 to-pink-400", border: "border-purple-500/40", glow: "shadow-purple-500/30" },
+              { bg: "from-pink-500 to-orange-400", border: "border-pink-500/40", glow: "shadow-pink-500/30" },
+            ];
+            const color = colors[i % colors.length];
+            const isLast = i === roadmap.length - 1;
+
+            return (
+              <div key={i}>
+                {/* بطاقة الخطوة */}
+                <div className={`flex ${isLeft ? "justify-start" : "justify-end"}`}>
+                  <div
+                    className={`w-full md:w-[60%] bg-white/5 hover:bg-white/10 border ${color.border} p-5 rounded-2xl transition-all hover:scale-[1.02] shadow-lg ${color.glow}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-9 h-9 shrink-0 rounded-full bg-gradient-to-br ${color.bg} flex items-center justify-center font-bold text-sm text-white`}
+                      >
+                        {i + 1}
+                      </div>
+                      <p className="text-gray-200 text-lg">{step}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* السهم المنحني الواصل للخطوة التالية */}
+                {!isLast && (
+                  <div className={`flex ${isLeft ? "justify-start pl-[20%] md:pl-[28%]" : "justify-end pr-[20%] md:pr-[28%]"} h-14`}>
+                    <svg width="60" height="56" viewBox="0 0 60 56" fill="none" className="text-gray-500">
+                      <path
+                        d={isLeft ? "M10 0 C10 28, 50 28, 50 56" : "M50 0 C50 28, 10 28, 10 56"}
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeDasharray="5 5"
+                        fill="none"
+                      />
+                      <path
+                        d={isLeft ? "M44 48 L50 56 L56 48" : "M4 48 L10 56 L16 48"}
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                )}
               </div>
-              <div className="bg-white/5 p-3 rounded-lg w-full">
-                {step}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

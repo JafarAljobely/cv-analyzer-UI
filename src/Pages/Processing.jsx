@@ -141,7 +141,7 @@
           match: safeInt(targetPath.match_score) || 0,
           score: safeInt(targetPath.match_score) || 0,
           feedback: feedbackText,
-          roadmap: targetPath.missing_skills?.map(item => `Master ${typeof item === 'object' ? item.skill : item} concepts`) || [],
+          roadmap: targetPath.missing_skills?.map(item => `تعلم ${typeof item === 'object' ? item.skill : item} concepts`) || [],
           jobs: [
             { title: `${targetPath.title || career} Specialist`, company: "AI Recommended Role", match: safeInt(targetPath.match_score) || 0 }
           ],

@@ -52,14 +52,27 @@ export default function Landing() {
       {/* Features */}
       <div className="relative z-10 grid grid-cols-3 gap-8 mt-32 px-10" >
 
-        {[" تحليل بالذكاء الاصطناعي ", " اكتشاف المهارات ", " مطابقة المهنة "].map((item, i) => (
+        {[
+          {
+            title: "تحليل بالذكاء الاصطناعي",
+            desc: "نفحص سيرتك الذاتية بدقة من ناحية البنية والصياغة، ونتأكد من توافقها مع أنظمة التوظيف الآلي (ATS) قبل أن تصل لأي مسؤول توظيف.",
+          },
+          {
+            title: "اكتشاف المهارات",
+            desc: "نستخرج كل المهارات التقنية المذكورة في سيرتك الذاتية تلقائياً، ونوضح لك أيها أساسي وأيها يفضل تطويره أكثر.",
+          },
+          {
+            title: "مطابقة المهنة",
+            desc: "نقارن مهاراتك بمتطلبات المسار الوظيفي الذي تختاره، ونعطيك نسبة توافق واضحة مع خارطة طريق عملية لتحسينها.",
+          },
+        ].map((item, i) => (
           <div
             key={i}
             className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl border border-white/20 hover:scale-105 transition"
           >
-            <h3 className="font-bold text-xl mb-2">{item}</h3>
+            <h3 className="font-bold text-xl mb-2">{item.title}</h3>
             <p className="text-gray-300">
-              Advanced AI insights to improve your CV and career direction.
+              {item.desc}
             </p>
           </div>
         ))}
