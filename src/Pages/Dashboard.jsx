@@ -124,13 +124,22 @@ export default function Dashboard() {
         </div>
 
         {/* زر العودة للرفع */}
-        <div className="flex justify-center md:justify-end">
+        <div className="flex justify-center md:justify-end gap-5">
+          
           <button 
             onClick={() => navigate("/upload")}
             className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 px-6 py-2 rounded-lg font-medium transition-all shadow-md hover:shadow-lg"
           >
             <span>رفع ملف جديد</span>
             <span className="text-xl">📤</span>
+          </button>
+
+          <button 
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 px-5 py-2 rounded-lg font-medium transition-all"
+          >
+            <span>الرئيسية</span>
+            <span className="text-xl">🏠</span>
           </button>
         </div>
       </div>
