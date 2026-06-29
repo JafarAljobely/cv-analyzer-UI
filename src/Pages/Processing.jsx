@@ -118,15 +118,15 @@
 
           let feedbackText = "";
           if (isChosenTheBest) {
-            feedbackText = `Great choice! Your CV matches ${chosenTitle} at ${matchScore}%, making it your strongest career path based on the skills you listed.`;
+            feedbackText = `اختيار موفّق! سيرتك الذاتية متوافقة مع مسار ${chosenTitle} بنسبة ${matchScore}%، وهو أقوى مسار وظيفي يناسب مهاراتك الحالية.`;
           } else {
-            feedbackText = `Your CV matches ${chosenTitle} at ${matchScore}%. However, your skill set aligns even more closely with ${topRecommendation} — you may want to explore that path too.`;
+            feedbackText = `سيرتك الذاتية متوافقة مع مسار ${chosenTitle} بنسبة ${matchScore}%. مع ذلك، مهاراتك تتوافق بشكل أقوى مع مسار ${topRecommendation} — قد يكون من المفيد استكشاف هذا المسار أيضاً.`;
           }
 
           if (requiredMissingCount > 0) {
-            feedbackText += ` To strengthen your profile for ${chosenTitle}, focus on closing ${requiredMissingCount} core skill${requiredMissingCount > 1 ? "s" : ""} first.`;
+            feedbackText += ` لتقوية ملفك الشخصي لمسار ${chosenTitle}، ننصحك بالتركيز على إتمام ${requiredMissingCount} ${requiredMissingCount > 1 ? "مهارات أساسية ناقصة" : "مهارة أساسية ناقصة"} أولاً.`;
           } else {
-            feedbackText += ` You already cover all the core skills required for ${chosenTitle} — nice work!`;
+            feedbackText += ` أنت بالفعل تغطي كل المهارات الأساسية المطلوبة لمسار ${chosenTitle} — عمل رائع!`;
           }
 
           // تنسيق البيانات بناءً على طلب ملف Dashboard.jsx

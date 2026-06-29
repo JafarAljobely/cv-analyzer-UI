@@ -5,7 +5,7 @@ export default function Landing() {
   const navigate = useNavigate();
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-black text-white ">
+    <div dir="rtl" className="relative min-h-screen overflow-hidden bg-black text-white ">
 
       {/* Glow Background */}
       <div className="absolute w-[600px] h-[600px] bg-blue-600 rounded-full blur-[200px] opacity-30 top-[-100px] left-[-100px]" />

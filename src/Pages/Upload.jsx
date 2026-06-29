@@ -51,7 +51,7 @@ export default function Upload() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white flex items-center justify-center p-6">
+    <div dir="rtl" className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white flex items-center justify-center p-6">
       <div className="w-full max-w-xl bg-white/5 backdrop-blur-lg p-8 rounded-2xl border border-white/10 shadow-xl">
         <h1 className="text-2xl font-bold mb-6 text-center"> ارفع سيرتك الذاتية </h1>
 

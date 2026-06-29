@@ -88,7 +88,7 @@ export default function Dashboard() {
   }, [feedback]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white p-10">
+    <div dir="rtl" className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white p-10" >
 
       {/* 🌟 الشريط العلوي الجديد (Top Bar) 🌟 */}
       <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-4 bg-gray-800/50 p-4 rounded-xl mb-8 shadow-lg border border-gray-700">
@@ -163,10 +163,10 @@ export default function Dashboard() {
           <div className="w-9 h-9 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-lg shrink-0">
             🤖
           </div>
-          <h2 className="font-bold text-lg text-white"> ملاحظات الذكاء الصناعي </h2>
+          <h2 className="font-bold text-lg text-white" dir="rtl"> ملاحظات الذكاء الصناعي </h2>
         </div>
 
-        <p className="text-gray-300 leading-relaxed">
+        <p className="text-gray-300 leading-relaxed" dir="rtl">
           {typed}
           <span className="animate-pulse">|</span>
         </p>
@@ -357,7 +357,7 @@ export default function Dashboard() {
 
                 {/* السهم المنحني الواصل للخطوة التالية */}
                 {!isLast && (
-                  <div className={`flex ${isLeft ? "justify-start pl-[20%] md:pl-[28%]" : "justify-end pr-[20%] md:pr-[28%]"} h-14`}>
+                  <div className={`flex ${isLeft ? "justify-start pr-[49%] md:pr-[39%]" : "justify-end pl-[49%] md:pl-[39%]"} h-14`}>
                     <svg width="60" height="56" viewBox="0 0 60 56" fill="none" className="text-gray-500">
                       <path
                         d={isLeft ? "M10 0 C10 28, 50 28, 50 56" : "M50 0 C50 28, 10 28, 10 56"}
