@@ -106,29 +106,13 @@
           // 🔥 بناء نص تحليل أغنى: يوضح نتيجة المسار المختار، يقارنه بالمسار
           // الأفضل توافقاً (إن وُجد مسار آخر أفضل)، ويذكر عدد المهارات
           // الأساسية الناقصة كخطوة عملية تالية للمستخدم.
-          const chosenTitle = targetPath.title || career;
-          const topRecommendation = data.top_recommendation || chosenTitle;
-          const matchScore = safeInt(targetPath.match_score) || 0;
-          const requiredMissingCount = (targetPath.missing_skills || []).filter(
-            (m) => (typeof m === "object" ? m.importance : null) === "required"
-          ).length;
-
-          const isChosenTheBest =
-            chosenTitle.toLowerCase() === topRecommendation.toLowerCase();
-
-          let feedbackText = "";
-          if (isChosenTheBest) {
-            feedbackText = `اختيار موفّق! سيرتك الذاتية متوافقة مع مسار ${chosenTitle} بنسبة ${matchScore}%، وهو أقوى مسار وظيفي يناسب مهاراتك الحالية.`;
-          } else {
-            feedbackText = `سيرتك الذاتية متوافقة مع مسار ${chosenTitle} بنسبة ${matchScore}%. مع ذلك، مهاراتك تتوافق بشكل أقوى مع مسار ${topRecommendation} — قد يكون من المفيد استكشاف هذا المسار أيضاً.`;
+          
+          let feedbackText = data.career_fit_opinion || "";
+          if (data.experience_justification) {
+            feedbackText += " " + data.experience_justification;
           }
 
-          if (requiredMissingCount > 0) {
-            feedbackText += ` لتقوية ملفك الشخصي لمسار ${chosenTitle}، ننصحك بالتركيز على إتمام ${requiredMissingCount} ${requiredMissingCount > 1 ? "مهارات أساسية ناقصة" : "مهارة أساسية ناقصة"} أولاً.`;
-          } else {
-            feedbackText += ` أنت بالفعل تغطي كل المهارات الأساسية المطلوبة لمسار ${chosenTitle} — عمل رائع!`;
-          }
-
+          
           // تنسيق البيانات بناءً على طلب ملف Dashboard.jsx
         const formattedResult = {
           career_paths: [{
@@ -146,7 +130,11 @@
             { title: `${targetPath.title || career} Specialist`, company: "AI Recommended Role", match: safeInt(targetPath.match_score) || 0 }
           ],
           // 🔥 السطر الجديد: تمرير بيانات الـ ATS القادمة من الباك إند (data) إلى الداشبورد
-          ats_analysis: data.ats_analysis
+          ats_analysis: data.ats_analysis,
+          // 🔥 مستوى الخبرة المستنتج (junior/senior) القادم من الباك إند
+          experience_level: data.experience_level || "junior",
+          is_path_suitable: data.is_path_suitable,
+          ai_path_feedback: data.ai_path_feedback
         };
 
         // الانتقال الطبيعي للداشبورد
@@ -158,7 +146,9 @@
               result: formattedResult, 
               fileName: file.name,
               // أخذنا الاسم من النتيجة المجهزة بدلاً من المتغيرات القديمة
-              careerTitle: formattedResult.career_paths[0]?.title || career || "Developer" 
+              careerTitle: formattedResult.career_paths[0]?.title || career || "Developer",
+              // 🔥 مستوى الخبرة المستنتج (junior/senior)
+              experienceLevel: formattedResult.experience_level
             } 
           });
         }, 500);

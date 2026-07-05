@@ -6,8 +6,31 @@ export default function Dashboard() {
   const location = useLocation();
   const navigate = useNavigate();
   
-  // ✅ التعديل: قراءة النتيجة واسم الملف معاً من الـ state
+  // ✅ التعديل: قراءة النتيجة واسم الملف ومستوى الخبرة معاً من الـ state
   const { result, fileName, careerTitle } = location.state || {};
+
+  const experienceLevel = result?.experience_level || "junior";
+  const isPathSuitable = result?.is_path_suitable ?? true;
+  const aiPathFeedback = result?.ai_path_feedback || "";
+  const aiAtsReport = result?.ats_analysis?.ai_ats_report || "";
+
+
+
+
+  // 🔗 ربط البيانات الحقيقية (مع قيم افتراضية آمنة عشان نقدر نستدعي
+  // كل الـ hooks تحت قبل أي early return، بدون ما نخالف Rules of Hooks)
+  const pathData = result?.career_paths?.[0] || {};
+  const skills = pathData.matched_skills || [];
+  const missing = pathData.missing_skills || [];
+  const finalMatch = result?.match || 0;
+  const finalScore = result?.score || 0;
+  const feedback = result?.feedback || "CV Analysis completed successfully.";
+
+  // 🔥 State الخاص بالعدادات — لازم يكون قبل أي return عشان نلتزم بـ Rules of Hooks
+  const [score, setScore] = useState(0);
+  const [match, setMatch] = useState(0);
+  const [typed, setTyped] = useState("");
+  const [activeJobTab, setActiveJobTab] = useState("all");
 
   // حماية الصفحة
   useEffect(() => {
@@ -15,55 +38,6 @@ export default function Dashboard() {
       navigate("/upload");
     }
   }, [result, navigate]);
-
-  if (!result) return null;
-
-  // 🔗 ربط البيانات الحقيقية
-  const pathData = result.career_paths?.[0] || {};
-
-  // 💡 بيانات تجريبية (Mock Data) لاختبار واجهة ATS حتى يتم ربطها بالبايثون
-   const atsData = result.ats_analysis || {
-    is_compliant: false,
-    score: 65,
-    issues: [
-      "تم اكتشاف استخدام أعمدة (Columns) مما قد يعيق قراءة بعض أنظمة ATS.",
-      "استخدام عناوين غير قياسية (مثل: 'My Journey' بدلاً من 'Experience').",
-      "نقص في استخدام المصطلحات الدقيقة من الوصف الوظيفي."
-    ],
-    passed: [
-      "خلو السيرة الذاتية من الجداول والصور المعقدة.",
-      "تم استخدام خطوط قياسية (Standard Fonts) ومقروءة.",
-      "تم تجنب الرسومات البيانية (Charts)."
-    ]
-  };
-
-
-  const missingSkills = pathData.missing_skills || [];
-  
-  const skills = pathData.matched_skills || [];
-  const missing = pathData.missing_skills || [];
-
-  // 🔥 فرز المهارات الناقصة لمجموعتين بناءً على importance القادمة من الباك إند:
-  // "required" = مهارة مهمة، غيرها = يفضل تعلمها
-  const importantMissing = missing.filter((m) => m.importance === "required");
-  const recommendedMissing = missing.filter((m) => m.importance !== "required");
-
-  const finalMatch = result.match || 0;
-  const finalScore = result.score || 0;
-  const feedback = result.feedback || "CV Analysis completed successfully.";
-  const roadmap = result.roadmap || ["Follow the structured path for better skills profile."];
-  
-
-  const courses = missing.map(skill => ({
-    name: `${skill} Course`,
-    link: `https://www.coursera.org/courses?query=${encodeURIComponent(skill)}`
-  }));
-
-  // 🔥 State الخاص بالعدادات
-  const [score, setScore] = useState(0);
-  const [match, setMatch] = useState(0);
-  const [typed, setTyped] = useState("");
-  const [activeJobTab, setActiveJobTab] = useState("all");
 
   // 🔥 تحريك العدادات
   useEffect(() => {
@@ -87,6 +61,35 @@ export default function Dashboard() {
     return () => clearInterval(t);
   }, [feedback]);
 
+  // ⚠️ كل الـ hooks فوق هاد السطر — الـ early return لازم يكون بعدهن دائماً
+  if (!result) return null;
+
+  // 💡 بيانات تجريبية (Mock Data) لاختبار واجهة ATS حتى يتم ربطها بالبايثون
+  const atsData = result.ats_analysis || {
+    is_compliant: false,
+    score: 65,
+    issues: [
+      "تم اكتشاف استخدام أعمدة (Columns) مما قد يعيق قراءة بعض أنظمة ATS.",
+      "استخدام عناوين غير قياسية (مثل: 'My Journey' بدلاً من 'Experience').",
+      "نقص في استخدام المصطلحات الدقيقة من الوصف الوظيفي."
+    ],
+    passed: [
+      "خلو السيرة الذاتية من الجداول والصور المعقدة.",
+      "تم استخدام خطوط قياسية (Standard Fonts) ومقروءة.",
+      "تم تجنب الرسومات البيانية (Charts)."
+    ]
+  };
+
+  const missingSkills = pathData.missing_skills || [];
+
+
+  // 🔥 فرز المهارات الناقصة لمجموعتين بناءً على importance القادمة من الباك إند:
+  // "required" = مهارة مهمة، غيرها = يفضل تعلمها
+  const importantMissing = missing.filter((m) => m.importance === "required");
+  const recommendedMissing = missing.filter((m) => m.importance !== "required");
+
+  const roadmap = result.roadmap || ["Follow the structured path for better skills profile."];
+
   return (
     <div dir="rtl" className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white p-10" >
 
@@ -100,9 +103,11 @@ export default function Dashboard() {
           </div>
           <div>
             <p className="text-lg text-gray-400">الملف الذي تم تحليله:</p>
-            <p className="text-lg font-semibold text-blue-400" dir="ltr">
-              {fileName || "سيرة_ذاتية_غير_معروفة.pdf"}
-            </p>
+            <div className="flex items-center gap-2">
+              <p className="text-lg font-semibold text-blue-400" dir="ltr">
+                {fileName || "سيرة_ذاتية_غير_معروفة.pdf"}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -147,7 +152,7 @@ export default function Dashboard() {
       {/* 🔥 النتيجة الإجمالية + AI Analysis Feedback (مدموجين بنفس البطاقة) */}
       <div className="bg-white/10 p-6 md:p-8 rounded-xl mb-10">
         <div className="grid grid-cols-2 gap-6 mb-8">
-          <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-6 rounded-xl hover:scale-105 transition">
+          <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-6 rounded-xl hover:scale-105 transition">
             <p> التقييم الاجمالي </p>
             <h2 className="text-3xl">{score}%</h2>
           </div>
@@ -158,19 +163,82 @@ export default function Dashboard() {
           </div>
 
         </div>
+      </div>
 
-        <div className="flex items-center gap-3 mb-4 pt-6 border-t border-white/10">
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-lg shrink-0">
-            🤖
-          </div>
-          <h2 className="font-bold text-lg text-white" dir="rtl"> ملاحظات الذكاء الصناعي </h2>
+
+
+      {/* ========================================================= */}
+{/* 🧠 قسم تقييم واستشارة الذكاء الاصطناعي المستقل (AI Feedback) */}
+{/* ========================================================= */}
+<div className="mt-12 bg-gradient-to-br from-gray-900 via-gray-800 to-black p-8 rounded-2xl border border-purple-500/20 shadow-2xl relative overflow-hidden text-right" dir="rtl">
+  
+  {/* تأثير متوهج خفيف بالخلفية متوافق مع تصميمك */}
+  <div className="absolute top-0 right-0 w-32 h-32 bg-purple-600/5 blur-3xl rounded-full"></div>
+
+  <div className="flex items-center gap-4 mb-8">
+    <div className="p-4 bg-purple-500/10 rounded-2xl border border-purple-500/20">
+      <span className="text-4xl">🤖</span>
+    </div>
+    <div>
+      <h3 className="text-2xl font-bold text-white">التقييم الاستشاري الذكي (AI Feedback)</h3>
+      <p className="text-gray-400 text-sm mt-1">توجيهات وملاحظات نموذج Gemini المخصصة لملفك المهني</p>
+    </div>
+  </div>
+
+  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">
+    
+    {/* صندوق 1: تقييم ملاءمة المسار والمستوى المهني */}
+    <div className="lg:col-span-1 bg-black/40 p-6 rounded-xl border border-gray-700/50 flex flex-col justify-between gap-4">
+      <div>
+        <h4 className="text-gray-400 font-semibold mb-3 text-l">ملاءمة مسار ({careerTitle}):</h4>
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-2xl">{isPathSuitable ? '✅' : '⚠️'}</span>
+          <span className={`text-lg font-bold ${isPathSuitable ? 'text-green-400' : 'text-orange-400'}`}>
+            {isPathSuitable ? 'المسار مناسب لمهاراتك' : 'ينصح بمراجعة الخيارات'}
+          </span>
         </div>
+      </div>
+      
+      <div className="pt-4 border-t border-gray-800/60">
+        <h4 className="text-gray-400 font-semibold mb-2 text-l">المستوى المهني المستنتج:</h4>
+        <span className={`inline-block px-4 py-1.5 rounded-full text-xs font-bold shadow-sm ${
+          experienceLevel === 'senior' 
+            ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' 
+            : 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+        }`}>
+          {experienceLevel === 'senior' ? 'خبير (Senior)' : 'مبتدئ / متوسط (Junior)'}
+        </span>
+      </div>
+    </div>
 
-        <p className="text-gray-300 leading-relaxed" dir="rtl">
-          {typed}
-          <span className="animate-pulse">|</span>
+    {/* صندوق 2: النصيحة المهنية التفصيلية وتوصية المسار من Gemini */}
+    <div className="lg:col-span-2 bg-black/40 p-6 rounded-xl border border-gray-700/50">
+      <h4 className="text-gray-400 font-semibold mb-3 text-sm flex items-center gap-2">
+        <span>💡</span> التوجيه المهني المخصص:
+      </h4>
+      <p className="text-gray-200 leading-relaxed text-justify whitespace-pre-line text-base text-l">
+        {aiPathFeedback || "جاري معالجة التوصيات المهنية..."}
+      </p>
+    </div>
+
+  </div>
+
+  {/* صندوق 3: نصائح تحسين الصياغة للهيكلية و ATS الذكي */}
+  {aiAtsReport && (
+    <div className="mt-6 bg-black/60 p-6 rounded-xl border border-purple-500/15 relative z-10">
+      <h4 className="text-purple-400 font-bold mb-3 flex items-center gap-2 text-base">
+        <span>📝</span> إرشادات صياغة السيرة الذاتية لـ ATS (رأي الذكاء الاصطناعي):
+      </h4>
+      <div className="bg-gray-950/80 p-5 rounded-lg border border-gray-800">
+        <p className="text-gray-300 leading-loose text-justify whitespace-pre-line text-x">
+          {aiAtsReport}
         </p>
       </div>
+    </div>
+  )}
+
+</div>
+
 
     {/* 🔥 تقرير توافق الـ ATS الفعلي 🔥 */}
       <div id="ats-report" className="bg-white/5 border border-white/10 p-6 md:p-8 rounded-xl mb-10 shadow-lg">
