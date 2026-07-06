@@ -1,6 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+
+
+
 
 export default function Dashboard() {
   const location = useLocation();
@@ -200,8 +204,8 @@ export default function Dashboard() {
       </div>
       
       <div className="pt-4 border-t border-gray-800/60">
-        <h4 className="text-gray-400 font-semibold mb-2 text-l">المستوى المهني المستنتج:</h4>
-        <span className={`inline-block px-4 py-1.5 rounded-full text-xs font-bold shadow-sm ${
+        <h4 className="text-gray-400 font-semibold mb-2 text-l"> المستوى المهني المستنتج:</h4>
+        <span className={`inline-block px-4 py-1.5 rounded-full text-l font-bold shadow-sm ${
           experienceLevel === 'senior' 
             ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' 
             : 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
@@ -216,7 +220,7 @@ export default function Dashboard() {
       <h4 className="text-gray-400 font-semibold mb-3 text-sm flex items-center gap-2">
         <span>💡</span> التوجيه المهني المخصص:
       </h4>
-      <p className="text-gray-200 leading-relaxed text-justify whitespace-pre-line text-base text-l">
+      <p className="text-gray-200 leading-relaxed text-justify whitespace-pre-line text-base text-xl">
         {aiPathFeedback || "جاري معالجة التوصيات المهنية..."}
       </p>
     </div>
@@ -230,7 +234,7 @@ export default function Dashboard() {
         <span>📝</span> إرشادات صياغة السيرة الذاتية لـ ATS (رأي الذكاء الاصطناعي):
       </h4>
       <div className="bg-gray-950/80 p-5 rounded-lg border border-gray-800">
-        <p className="text-gray-300 leading-loose text-justify whitespace-pre-line text-x">
+        <p className="text-gray-300 leading-loose text-justify whitespace-pre-line text-xl">
           {aiAtsReport}
         </p>
       </div>
@@ -270,7 +274,7 @@ export default function Dashboard() {
             <ul className="space-y-3">
               {atsData.issues.map((issue, index) => (
                 <li key={index} className="flex items-start gap-3 text-gray-300 text-sm md:text-base leading-relaxed">
-                  <span className="text-red-500 mt-0.5">✖</span>
+                  <span className="text-red-500 mt-0.5 text-2xl">✖</span>
                   <span>{issue}</span>
                 </li>
               ))}
@@ -285,7 +289,7 @@ export default function Dashboard() {
             <ul className="space-y-3">
               {atsData.passed.map((pass, index) => (
                 <li key={index} className="flex items-start gap-3 text-gray-300 text-sm md:text-base leading-relaxed">
-                  <span className="text-green-500 mt-0.5">✔</span>
+                  <span className="text-green-500 mt-0.5 text-2xl">✔</span>
                   <span>{pass}</span>
                 </li>
               ))}
@@ -386,155 +390,271 @@ export default function Dashboard() {
       </div>
 
       {/* 🔥 ROADMAP */}
-      <div className="bg-white/10 p-6 md:p-8 rounded-xl mb-10">
-        <div className="flex items-center gap-3 mb-10">
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-lg shrink-0">
-            🗺️
-          </div>
-          <h2 className="font-bold text-lg text-white"> خارطة التعلم العملي </h2>
-        </div>
+      <div className="bg-white/5 backdrop-blur-md border border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-8 rounded-2xl mb-10" dir="rtl">
+  <div className="flex items-center gap-4 mb-10">
+    <div className="w-9 h-9 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-lg shrink-0">
+      🗺️
+    </div>
+    <h2 className="font-bold text-3xl text-blue-400">خارطة التعلم العملي</h2>
+  </div>
 
-        <div className="flex flex-col">
-          {roadmap.map((step, i) => {
-            const isLeft = i % 2 === 0;
-            const colors = [
-              { bg: "from-blue-500 to-cyan-400", border: "border-blue-500/40", glow: "shadow-blue-500/30" },
-              { bg: "from-purple-500 to-pink-400", border: "border-purple-500/40", glow: "shadow-purple-500/30" },
-              { bg: "from-pink-500 to-orange-400", border: "border-pink-500/40", glow: "shadow-pink-500/30" },
-            ];
-            const color = colors[i % colors.length];
-            const isLast = i === roadmap.length - 1;
+  <div className="flex flex-col">
+    {roadmap.map((step, i) => {
+      const isLeft = i % 2 === 0;
+      const isArrowLeft = !isLeft;
+      const colors = [
+        { bg: "from-blue-500 to-cyan-400", border: "border-blue-500/30", glow: "shadow-blue-500/20", hoverBorder: "hover:border-blue-500/60" },
+        { bg: "from-purple-500 to-pink-400", border: "border-purple-500/30", glow: "shadow-purple-500/20", hoverBorder: "hover:border-purple-500/60" },
+        { bg: "from-pink-500 to-orange-400", border: "border-pink-500/30", glow: "shadow-pink-500/20", hoverBorder: "hover:border-pink-500/60" },
+      ];
+      const color = colors[i % colors.length];
+      const isLast = i === roadmap.length - 1;
 
-            return (
-              <div key={i}>
-                {/* بطاقة الخطوة */}
-                <div className={`flex ${isLeft ? "justify-start" : "justify-end"}`}>
-                  <div
-                    className={`w-full md:w-[60%] bg-white/5 hover:bg-white/10 border ${color.border} p-5 rounded-2xl transition-all hover:scale-[1.02] shadow-lg ${color.glow}`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`w-9 h-9 shrink-0 rounded-full bg-gradient-to-br ${color.bg} flex items-center justify-center font-bold text-sm text-white`}
-                      >
-                        {i + 1}
-                      </div>
-                      <p className="text-gray-200 text-lg">{step}</p>
-                    </div>
-                  </div>
+      return (
+        <div key={i}>
+          {/* بطاقة الخطوة */}
+          <div className={`flex ${isLeft ? "justify-start" : "justify-end"}`}>
+            <div
+              className={`w-full md:w-[60%] bg-white/5 backdrop-blur-md border ${color.border} ${color.hoverBorder} p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-xl ${color.glow} group`}
+            >
+              <div className="flex items-center gap-4 ${isLeft ? 'justify-end' : 'justify-start'}">
+                <div
+                  className={`w-10 h-10 shrink-0 rounded-full bg-gradient-to-br ${color.bg} flex items-center justify-center font-bold text-sm text-white group-hover:scale-110 transition-transform duration-300 shadow-md`}
+                >
+                  {i + 1}
                 </div>
-
-                {/* السهم المنحني الواصل للخطوة التالية */}
-                {!isLast && (
-                  <div className={`flex ${isLeft ? "justify-start pr-[49%] md:pr-[39%]" : "justify-end pl-[49%] md:pl-[39%]"} h-14`}>
-                    <svg width="60" height="56" viewBox="0 0 60 56" fill="none" className="text-gray-500">
-                      <path
-                        d={isLeft ? "M10 0 C10 28, 50 28, 50 56" : "M50 0 C50 28, 10 28, 10 56"}
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeDasharray="5 5"
-                        fill="none"
-                      />
-                      <path
-                        d={isLeft ? "M44 48 L50 56 L56 48" : "M4 48 L10 56 L16 48"}
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
-                )}
+                <p className="text-gray-100 text-lg leading-relaxed text-right">{step}</p>
               </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* 🔥 COURSES */}
-      {missingSkills.length > 0 && (
-        <div id="courses" className="bg-white/10 p-6 md:p-7 rounded-xl mb-10 shadow-lg border border-gray-700/50">
-          <h2 className="mb-6 font-bold text-xl md:text-2xl text-blue-400 flex items-center gap-2">
-            <span>📚</span> مسارات التعلم المقترحة
-          </h2>
-          
-          <div className="flex flex-wrap justify-center gap-6">
-            {/* 🔥 ترتيب المهارات المهمة أولاً، ثم المستحسنة */}
-            {[...importantMissing, ...recommendedMissing].map((item, i) => (
-              <div key={i} className="w-full md:w-[49%] lg:w-[32%] bg-gray-800 border border-gray-700 p-6 rounded-xl flex flex-col items-center gap-5 hover:border-blue-500/50 transition group shadow-md">
-                <span className="font-bold text-lg md:text-xl text-gray-200 text-center">
-                   <span className="text-blue-400">{item.skill}</span>  تعلم
-                </span>
-                
-                <div className="flex w-full gap-3">
-                  {/* زر Coursera */}
-                  <a
-                    href={`https://www.coursera.org/search?query=${encodeURIComponent(item.skill)}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex-1 flex justify-center items-center gap-2 bg-[#0056D2] hover:bg-[#0043A8] text-white py-2.5 rounded-lg text-sm md:text-base font-bold transition hover:scale-[1.03] shadow-sm"
-                  >
-                    Coursera
-                  </a>
-
-                  {/* زر YouTube */}
-                  <a
-                    href={`https://www.youtube.com/results?search_query=${encodeURIComponent(item.skill + " full course")}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex-1 flex justify-center items-center gap-2 bg-[#FF0000] hover:bg-[#CC0000] text-white py-2.5 rounded-lg text-sm md:text-base font-bold transition hover:scale-[1.03] shadow-sm"
-                  >
-                    YouTube
-                  </a>
-                </div>
-              </div>
-            ))}
+            </div>
           </div>
-        </div>
-      )}
 
+          {/* السهم المنحني الواصل للخطوة التالية */}
+          {!isLast && (
+            <div
+              className={`flex ${
+                isLeft
+                  ? "justify-start pr-[40%] md:pr-[33%]"
+                  : "justify-end pl-[40%] md:pl-[33%]"
+              } h-36 overflow-visible`}
+            >
+              <svg
+                width="420"
+                height="140"
+                viewBox="0 0 180 140"
+                className="overflow-visible"
+              >
+                {/* Main Path */}
+                <motion.path
+                  d={
+                    isArrowLeft
+                      ? "M20 5 C20 70,20 70,90 70 S160 70 160 135"
+                      : "M160 5 C160 70,160 70,90 70 S20 70 20 135"
+                  }
+                  stroke="#ffffff"
+                  strokeOpacity="0.15"
+                  strokeWidth="2.5"
+                  fill="none"
+                  strokeDasharray="8 8"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{
+                    duration: 1.2,
+                    ease: "easeInOut",
+                  }}
+                />
+
+                {/* Moving Glow */}
+                <motion.circle
+                  r="5"
+                  fill="#60A5FA"
+                  filter="url(#glow)"
+                >
+                  <animateMotion
+                    dur="3s"
+                    repeatCount="indefinite"
+                    path={
+                      isArrowLeft
+                        ? "M20 5 C20 70,20 70,90 70 S160 70 160 135"
+                        : "M160 5 C160 70,160 70,90 70 S20 70 20 135"
+                    }
+                  />
+                </motion.circle>
+
+                {/* Arrow */}
+                <motion.path
+                  d={
+                    isArrowLeft
+                      ? "M152 124 L160 135 L168 124"
+                      : "M12 124 L20 135 L28 124"
+                  }
+                  stroke="#ffffff"
+                  strokeOpacity="0.3"
+                  strokeWidth="2.5"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    delay: 1,
+                  }}
+                />
+
+                {/* Glow Filter */}
+                <defs>
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+              </svg>
+            </div>
+          )}
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+
+
+        {/* 🔥 Courses section */}
+
+     {missingSkills.length > 0 && (
+  <div id="courses" className="mt-12" dir="rtl">
+    <h2 className="mb-8 font-bold text-3xl text-blue-400 flex items-center gap-4">
+      <span className="text-4xl drop-shadow-md">📚</span> مسارات التعلم المقترحة
+    </h2>
+    
+    <div className="flex flex-wrap justify-center gap-8">
+      {[...importantMissing, ...recommendedMissing].map((item, i) => {
+        const isRequired = item.importance === "required"; 
+
+        return (
+          <div key={i} className="w-full sm:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] bg-white/5 backdrop-blur-md border border-white/10 hover:border-blue-500/50 rounded-2xl p-7 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-blue-500/20 group">
+            
+            <div className="flex justify-between items-start mb-6">
+              <div className="bg-white/10 p-3.5 rounded-xl border border-white/5 text-blue-400 group-hover:bg-blue-500/20 group-hover:scale-110 transition-all duration-300">
+                <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+              </div>
+              <span className={`text-[20px] font-bold px-4 py-2 rounded-full border ${isRequired ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-blue-500/10 text-blue-400 border-blue-500/20'}`}>
+                {isRequired ? 'أساسي' : 'إضافي'}
+              </span>
+            </div>
+            
+            <div className="mb-8">
+              <h3 className="font-bold text-2xl text-gray-100 mb-3">{item.skill}</h3>
+              <p className="text-white/50 text-[20px] leading-relaxed">
+                {isRequired ? 'مهارة حاسمة لتجاوز فلاتر الـ ATS.' : 'مهارة مميزة ترفع من قوة سيرتك الذاتية.'}
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4 mt-auto">
+              <a
+                href={`https://www.coursera.org/search?query=${encodeURIComponent(item.skill)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex justify-center items-center bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 py-3.5 rounded-xl text-[19px] font-bold transition-all"
+              >
+                Coursera
+              </a>
+              
+              <a
+                href={`https://www.udemy.com/courses/search/?src=ukw&q=${encodeURIComponent(item.skill)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex justify-center items-center bg-purple-600/10 hover:bg-purple-600 text-purple-400 hover:text-white border border-purple-500/30 py-3.5 rounded-xl text-[19px] font-bold transition-all"
+              >
+                Udemy
+              </a>
+
+              <a
+                href={`https://www.freecodecamp.org/news/search/?query=${encodeURIComponent(item.skill)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex justify-center items-center bg-[#0a0a23]/30 hover:bg-[#0a0a23] text-gray-300 hover:text-white border border-gray-500/30 hover:border-[#0a0a23] py-3.5 rounded-xl text-[19px] font-bold transition-all"
+              >
+                freeCodeCamp
+              </a>
+
+              <a
+                href={`https://www.youtube.com/results?search_query=${encodeURIComponent(item.skill + " full course")}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex justify-center items-center bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/30 py-4 rounded-xl text-[16px] font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-red-500/20 group"
+              >
+                YouTube
+              </a>
+            </div>
+
+          </div>
+        );
+      })}
+    </div>
+  </div>
+)}
+
+
+
+
+
+      
       {/* 🔥 JOBS */}
-      <div className="bg-white/10 p-6 rounded-xl mt-10 border border-gray-700/50 shadow-lg">
-        <h2 className="mb-2 font-bold text-2xl text-blue-400"> فرص عمل حقيقية</h2>
-        <p className="text-gray-400 mb-6 text-l">
-          ابحث عن أحدث الشواغر المطابقة لمسارك كـ <span className="font-bold text-white px-2 py-1 bg-gray-800 rounded">{pathData.title || "Developer"}</span> في المنصات التالية:
-        </p>
+      <div className="bg-white/5 backdrop-blur-md p-8 rounded-2xl mt-12 border border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.12)]" dir="rtl">
+  <div className="flex items-center gap-4 mb-5">
+    <div className="bg-white/10 p-3.5 rounded-xl border border-white/5 text-blue-400">
+      <span className="text-3xl">💼</span>
+    </div>
+    <h2 className="font-bold text-3xl text-blue-400">فرص عمل حقيقية</h2>
+  </div>
 
-        <div className="flex flex-col md:flex-row gap-4">
-          {/* زر LinkedIn */}
-          <a
-            href={`https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(pathData.title || "Developer")}`}
-            target="_blank"
-            rel="noreferrer"
-            className="flex-1 flex justify-center items-center gap-3 bg-gradient-to-r from-blue-500 to-purple-500 p-6 rounded-xl hover:scale-105 transition"
-          >
-            <span className="text-l">البحث في LinkedIn</span>
-            <span className="text-xl">💼</span>
-          </a>
+  <p className="text-white/60 mb-8 text-[16px] leading-relaxed">
+    ابحث عن أحدث الشواغر المطابقة لمسارك كـ 
+    <span className="inline-block font-bold text-blue-300 px-3 py-1.5 mx-2 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+      {pathData.title || "Developer"}
+    </span>
+    في المنصات التالية:
+  </p>
 
-           {/* زر wellfound */}
-          <a
-            href={`https://weworkremotely.com/remote-jobs/search?term=${encodeURIComponent(pathData.title || "Developer")}`}
-            target="_blank"
-            rel="noreferrer"
-            className="flex-1 flex justify-center items-center gap-3 bg-gradient-to-r from-blue-500 to-purple-500 p-6 rounded-xl hover:scale-105 transition"
-          >
-            <span className="text-l">البحث في We Work Remotly</span>
-          </a>
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+    {/* LinkedIn */}
+    <a
+      href={`https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(pathData.title || "Developer")}`}
+      target="_blank"
+      rel="noreferrer"
+      className="flex justify-center items-center gap-3 bg-[#0077b5]/10 hover:bg-[#0077b5] text-[#0077b5] hover:text-white border border-[#0077b5]/30 py-4 rounded-xl text-[16px] font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#0077b5]/20 group"
+    >
+      <span>LinkedIn</span>
+      <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+    </a>
 
-         {/* زر موقع فرصة */}
-          <a
-            href={`https://forsa.sy/jobs.html?Text=${encodeURIComponent(pathData.title || "Developer")}`}
-            target="_blank"
-            rel="noreferrer"
-            className="flex-1 flex justify-center items-center gap-3 bg-gradient-to-r from-purple-500 to-blue-500 p-6 rounded-xl hover:scale-105 transition"
-          >
-            <span className="text-l">البحث في منصة فرصة</span>
-            <span className="text-xl">🎯</span>
-          </a>
-        </div>
-      </div>
+    {/* We Work Remotely */}
+    <a
+      href={`https://weworkremotely.com/remote-jobs/search?term=${encodeURIComponent(pathData.title || "Developer")}`}
+      target="_blank"
+      rel="noreferrer"
+      className="flex justify-center items-center gap-3 bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/30 py-4 rounded-xl text-[16px] font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-red-500/20 group"
+    >
+      <span>We Work Remotely</span>
+      <span className="text-xl group-hover:scale-110 transition-transform">🌍</span>
+    </a>
 
-    </div> // هذه هي إغلاقة الـ div الرئيسي للداشبورد
-  );
-}
+    {/* Forsa */}
+    <a
+      href={`https://forsa.sy/jobs.html?Text=${encodeURIComponent(pathData.title || "Developer")}`}
+      target="_blank"
+      rel="noreferrer"
+      className="flex justify-center items-center gap-3 bg-purple-500/10 hover:bg-purple-600 text-purple-400 hover:text-white border border-purple-500/30 py-4 rounded-xl text-[16px] font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/20 group"
+    >
+      <span>منصة فرصة</span>
+      <span className="text-xl group-hover:scale-110 transition-transform">🎯</span>
+    </a>
+  </div>
+</div>
+
+</div>)}
