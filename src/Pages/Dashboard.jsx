@@ -98,7 +98,7 @@ export default function Dashboard() {
     <div dir="rtl" className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white p-10" >
 
       {/* 🌟 الشريط العلوي الجديد (Top Bar) 🌟 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-4 bg-gray-800/50 p-4 rounded-xl mb-8 shadow-lg border border-gray-700">
+      <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-4 bg-gray-800/50 p-8 rounded-xl mb-8 shadow-lg border border-gray-700">
         
         {/* قسم عرض اسم الملف (يسار) */}
         <div className="flex items-center gap-3 justify-center md:justify-start">
@@ -106,9 +106,9 @@ export default function Dashboard() {
             📄
           </div>
           <div>
-            <p className="text-lg text-gray-400">الملف الذي تم تحليله:</p>
+            <p className="text-xl text-gray-400">الملف الذي تم تحليله:</p>
             <div className="flex items-center gap-2">
-              <p className="text-lg font-semibold text-blue-400" dir="ltr">
+              <p className="text-xl font-semibold text-blue-400" dir="ltr">
                 {fileName || "سيرة_ذاتية_غير_معروفة.pdf"}
               </p>
             </div>
@@ -123,8 +123,8 @@ export default function Dashboard() {
                 
               </div> */}
               <div>
-                <p className="text-lg text-gray-400 text-center">المسار المختار:</p>
-                <p className="text-lg font-semibold text-purple-400 text-center">
+                <p className="text-xl text-gray-400 text-center">المسار المختار:</p>
+                <p className="text-xl font-semibold text-purple-400 text-center">
                   {careerTitle}
                 </p>
               </div>
@@ -139,16 +139,16 @@ export default function Dashboard() {
             onClick={() => navigate("/upload")}
             className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 px-6 py-2 rounded-lg font-medium transition-all shadow-md hover:shadow-lg"
           >
-            <span>رفع ملف جديد</span>
-            <span className="text-xl">📤</span>
+            <span className="text-xl">رفع ملف جديد</span>
+            <span className="text-2xl">📤</span>
           </button>
 
           <button 
             onClick={() => navigate("/")}
             className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 px-5 py-2 rounded-lg font-medium transition-all"
           >
-            <span>الرئيسية</span>
-            <span className="text-xl">🏠</span>
+            <span className="text-xl">الرئيسية</span>
+            <span className="text-2xl">🏠</span>
           </button>
         </div>
       </div>
@@ -157,13 +157,13 @@ export default function Dashboard() {
       <div className="bg-white/10 p-6 md:p-8 rounded-xl mb-10">
         <div className="grid grid-cols-2 gap-6 mb-8">
           <div className="bg-gradient-to-r from-purple-500 to-blue-500 p-6 rounded-xl hover:scale-105 transition">
-            <p> التقييم الاجمالي </p>
-            <h2 className="text-3xl">{score}%</h2>
+            <p className="text-2xl"> التقييم الاجمالي </p>
+            <h2 className="text-4xl">{score}%</h2>
           </div>
 
           <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-6 rounded-xl hover:scale-105 transition">
-            <p> المهارات المكتشفة </p>
-            <h2 className="text-3xl">{skills.length}</h2>
+            <p className="text-2xl"> المهارات المكتشفة </p>
+            <h2 className="text-4xl">{skills.length}</h2>
           </div>
 
         </div>
@@ -185,7 +185,7 @@ export default function Dashboard() {
     </div>
     <div>
       <h3 className="text-2xl font-bold text-white">التقييم الاستشاري الذكي (AI Feedback)</h3>
-      <p className="text-gray-400 text-sm mt-1">توجيهات وملاحظات نموذج Gemini المخصصة لملفك المهني</p>
+      <p className="text-gray-400 text-xl mt-1">توجيهات وملاحظات نموذج Gemini المخصصة لملفك المهني</p>
     </div>
   </div>
 
@@ -194,7 +194,7 @@ export default function Dashboard() {
     {/* صندوق 1: تقييم ملاءمة المسار والمستوى المهني */}
     <div className="lg:col-span-1 bg-black/40 p-6 rounded-xl border border-gray-700/50 flex flex-col justify-between gap-4">
       <div>
-        <h4 className="text-gray-400 font-semibold mb-3 text-l">ملاءمة مسار ({careerTitle}):</h4>
+        <h4 className="text-gray-400 font-semibold mb-3 text-xl">ملاءمة مسار ({careerTitle}):</h4>
         <div className="flex items-center gap-2 mb-4">
           <span className="text-2xl">{isPathSuitable ? '✅' : '⚠️'}</span>
           <span className={`text-lg font-bold ${isPathSuitable ? 'text-green-400' : 'text-orange-400'}`}>
@@ -204,7 +204,7 @@ export default function Dashboard() {
       </div>
       
       <div className="pt-4 border-t border-gray-800/60">
-        <h4 className="text-gray-400 font-semibold mb-2 text-l"> المستوى المهني المستنتج:</h4>
+        <h4 className="text-gray-400 font-semibold mb-2 text-xl"> المستوى المهني المستنتج:</h4>
         <span className={`inline-block px-4 py-1.5 rounded-full text-l font-bold shadow-sm ${
           experienceLevel === 'senior' 
             ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' 
@@ -217,7 +217,7 @@ export default function Dashboard() {
 
     {/* صندوق 2: النصيحة المهنية التفصيلية وتوصية المسار من Gemini */}
     <div className="lg:col-span-2 bg-black/40 p-6 rounded-xl border border-gray-700/50">
-      <h4 className="text-gray-400 font-semibold mb-3 text-sm flex items-center gap-2">
+      <h4 className="text-gray-400 font-semibold mb-3 text-2xl flex items-center gap-2">
         <span>💡</span> التوجيه المهني المخصص:
       </h4>
       <p className="text-gray-200 leading-relaxed text-justify whitespace-pre-line text-base text-xl">
@@ -230,9 +230,9 @@ export default function Dashboard() {
   {/* صندوق 3: نصائح تحسين الصياغة للهيكلية و ATS الذكي */}
   {aiAtsReport && (
     <div className="mt-6 bg-black/60 p-6 rounded-xl border border-purple-500/15 relative z-10">
-      <h4 className="text-purple-400 font-bold mb-3 flex items-center gap-2 text-base">
-        <span>📝</span> إرشادات صياغة السيرة الذاتية لـ ATS (رأي الذكاء الاصطناعي):
-      </h4>
+      <h1 className="text-purple-400 font-bold mb-3 flex items-center gap-2 text-2xl">
+        <span className="text-2xl">📝</span> إرشادات صياغة السيرة الذاتية لـ ATS (رأي الذكاء الاصطناعي):
+      </h1>
       <div className="bg-gray-950/80 p-5 rounded-lg border border-gray-800">
         <p className="text-gray-300 leading-loose text-justify whitespace-pre-line text-xl">
           {aiAtsReport}
@@ -251,7 +251,7 @@ export default function Dashboard() {
             <h2 className="font-bold text-2xl text-white flex items-center gap-2">
               <span>⚙️</span> تقرير نظام تتبع التقديم للوظائف
             </h2>
-            <p className="text-gray-400 text-l mt-1">تحليل دقيق لهيكلية السيرة الذاتية ومدى توافقها مع أنظمة التوظيف الآلي.</p>
+            <p className="text-gray-400 text-xl mt-1">تحليل دقيق لهيكلية السيرة الذاتية ومدى توافقها مع أنظمة التوظيف الآلي.</p>
           </div>
           
           {/* دائرة النسبة المئوية للـ ATS */}
@@ -613,7 +613,7 @@ export default function Dashboard() {
     <h2 className="font-bold text-3xl text-blue-400">فرص عمل حقيقية</h2>
   </div>
 
-  <p className="text-white/60 mb-8 text-[16px] leading-relaxed">
+  <p className="text-white/60 mb-8 text-[22px] leading-relaxed">
     ابحث عن أحدث الشواغر المطابقة لمسارك كـ 
     <span className="inline-block font-bold text-blue-300 px-3 py-1.5 mx-2 bg-blue-500/10 border border-blue-500/20 rounded-lg">
       {pathData.title || "Developer"}
@@ -629,8 +629,8 @@ export default function Dashboard() {
       rel="noreferrer"
       className="flex justify-center items-center gap-3 bg-[#0077b5]/10 hover:bg-[#0077b5] text-[#0077b5] hover:text-white border border-[#0077b5]/30 py-4 rounded-xl text-[16px] font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#0077b5]/20 group"
     >
-      <span>LinkedIn</span>
-      <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+      <span className="text-xl">LinkedIn</span>
+      <svg className="w-8 h-8 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
     </a>
 
     {/* We Work Remotely */}
@@ -638,10 +638,11 @@ export default function Dashboard() {
       href={`https://weworkremotely.com/remote-jobs/search?term=${encodeURIComponent(pathData.title || "Developer")}`}
       target="_blank"
       rel="noreferrer"
-      className="flex justify-center items-center gap-3 bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/30 py-4 rounded-xl text-[16px] font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-red-500/20 group"
+      className="flex justify-center items-center gap-3 bg-white hover:bg-black text-black hover:text-white border border-gray-300 py-4 rounded-xl text-[16px] font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-lg group"
     >
-      <span>We Work Remotely</span>
-      <span className="text-xl group-hover:scale-110 transition-transform">🌍</span>
+      <span className="text-xl">We Work Remotely</span>
+      <img src="/src/assets/wework.png" alt="" className="w-8 h-8 group-hover:scale-110 transition-transform" />
+      {/* <span className="text-xl group-hover:scale-110 transition-transform">🌍</span> */}
     </a>
 
     {/* Forsa */}
@@ -651,8 +652,9 @@ export default function Dashboard() {
       rel="noreferrer"
       className="flex justify-center items-center gap-3 bg-purple-500/10 hover:bg-purple-600 text-purple-400 hover:text-white border border-purple-500/30 py-4 rounded-xl text-[16px] font-bold transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/20 group"
     >
-      <span>منصة فرصة</span>
-      <span className="text-xl group-hover:scale-110 transition-transform">🎯</span>
+      <span className="text-xl">منصة فرصة</span>
+      <img src="/src/assets/forsa.png" alt="" className="w-8 h-8 group-hover:scale-110 transition-transform" />
+      {/* <span className="text-xl group-hover:scale-110 transition-transform">🎯</span> */}
     </a>
   </div>
 </div>
